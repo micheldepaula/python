@@ -3,29 +3,29 @@ import string
 
 def gen_line(i, target_index):
     letter = string.ascii_uppercase[i]
-    outer_spaces = abs(target_index - i)
-    inner_spaces = (i * 2 - 1)
+    outer = abs(target_index - i)
+    inner = (i * 2 - 1)
 
     compose = {
-        0: lambda: f"{' ' * outer_spaces}{letter}{' ' * outer_spaces}",
-        1: lambda: f"{' ' * outer_spaces}{letter}{' ' * inner_spaces}{letter}{' ' * outer_spaces}"
+        0: lambda: f"{'_' * outer}{letter}{'_' * outer}",
+        1: lambda: f"{'_' * outer}{letter}{'_' * inner}{letter}{'_' * outer}"
     }
 
-    return compose[i > 0]()  # 0 or 1
+    return compose[i > 0]()  # usa 1 se i > 0, senão usa 0
 
 def diamond(letter):
     letter = letter.upper()
     index = string.ascii_uppercase.index(letter)
 
     top = [gen_line(i, index) for i in range(index + 1)]
-    bottom = top[:-1][::-1]  # espelha sem duplicar o meio
+    bottom = top[:-1][::-1]
     return "\n".join(top + bottom)
 
 def main():
-    parser = argparse.ArgumentParser(description="Diamond Kata: imprime um losango com letras.")
-    parser.add_argument("--letter", type=str, required=True, help="Letra do losango (A-Z)")
-
+    parser = argparse.ArgumentParser(description="Diamond Kata com underscores.")
+    parser.add_argument("--letter", type=str, required=True, help="Letra final do losango (A-Z)")
     args = parser.parse_args()
+
     print(diamond(args.letter))
 
 if __name__ == "__main__":
